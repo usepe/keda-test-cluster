@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-message
+spec:
+  selector:
+    matchLabels:
+      app: post-message
+  template:
+    replicas: 1
+    metadata:
+      labels:
+        app: post-message
+    spec:
+      containers:
+      - name: post-message
+        image: docker.pkg.github.com/usepe/post-message/post-message:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - name: http
+          containerPort: 8080
