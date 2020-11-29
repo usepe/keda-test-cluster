@@ -3,11 +3,11 @@ kind: Deployment
 metadata:
   name: post-message
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: post-message
   template:
-    replicas: 1
     metadata:
       labels:
         app: post-message
