@@ -7,4 +7,4 @@ ARGO_PASS=`kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o
 
 echo "Argo Cluster password: $ARGO_PASS"
 
-kubectl apply cluster.yml
+kubectl apply -f cluster.yml
