@@ -7,8 +7,8 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: keda
     repoURL: https://kedacore.github.io/charts
+    chart: keda
     targetRevision: 2.0.0
   destination:
     server: https://kubernetes.default.svc
