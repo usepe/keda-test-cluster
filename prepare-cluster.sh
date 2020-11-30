@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Requirements
-[[ -z "$DOCKER_USERNAME" ]] && { echo "Error: Docker Username is empty [\$DOCKER_USERNAME]"; exit 1; }
-[[ -z "$DOCKER_PASSWORD" ]] && { echo "Error: Docker Password is empty [\$DOCKER_PASSWORD]"; exit 1; }
-[[ -z "$DOCKER_EMAIL" ]] && { echo "Error: Docker E-mail is empty [\$DOCKER_EMAIL]"; exit 1; }
+[[ -z "$GITHUB_USER" ]] && { echo "Error: Gitub User is empty [\$GITHUB_USER]"; exit 1; }
+[[ -z "$GITHUB_TOKEN" ]] && { echo "Error: Github Token is empty [\$GITHUB_TOKEN]"; exit 1; }
 
 # KEDA CRDs
 kubectl apply -f https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml > /dev/null 2>&1 
@@ -16,10 +15,12 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ARGO_PASS=`kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2`
 
+# Image Pull Secrets
+kubectl create namespace apps > /dev/null 2>&1
+AUTH=`echo -n $GITHUB_USER:$GITHUB_TOKEN | base64`
+echo "{\"auths\":{\"docker.pkg.github.com\":{\"auth\":\"$AUTH\"}}}" | kubectl create secret generic docker-registry --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=/dev/stdin -n apps
+
 # Apply Main App
 kubectl apply -f cluster.yml > /dev/null 2>&1
-
-# Secret
-kubectl create secret docker-registry docker-github --docker-server=docker.pkg.github.com --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
 
 echo "Argo Cluster password: $ARGO_PASS"

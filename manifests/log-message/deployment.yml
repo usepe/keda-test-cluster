@@ -11,6 +11,8 @@ spec:
       labels:
         app: log-message
     spec:
+      imagePullSecrets:
+      - name: docker-registry
       containers:
       - name: log-message
         image: docker.pkg.github.com/usepe/log-message/log-message:latest
