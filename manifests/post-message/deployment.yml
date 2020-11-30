@@ -21,6 +21,9 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        env:
+          - name: CONNECTION_STRING
+            value: amqp://user:password@rabbitmq:5672/
         ports:
         - name: http
           containerPort: 8080

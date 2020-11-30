@@ -11,6 +11,13 @@ spec:
     repoURL: https://charts.bitnami.com/bitnami
     chart: rabbitmq
     targetRevision: 8.2.0
+    helm:
+      values: |
+      loadDefinition:
+        enabled: true
+        existingSecret: rabbitmq-load-definition
+      extraConfiguration: |
+        load_definitions = /app/load_definition.json
   destination:
     server: https://kubernetes.default.svc
     namespace: rabbitmq

@@ -20,6 +20,25 @@ kubectl create namespace apps > /dev/null 2>&1
 AUTH=`echo -n $GITHUB_USER:$GITHUB_TOKEN | base64`
 echo "{\"auths\":{\"docker.pkg.github.com\":{\"auth\":\"$AUTH\"}}}" | kubectl create secret generic docker-registry --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=/dev/stdin -n apps
 
+
+kubectl create namespace rabbitmq > /dev/null 2>&1
+cat << EOF | kubectl create secret generic rabbitmq-load-definition --from-file=load_definition.json=/dev/stdin -n rabbitmq
+{
+    "users": [
+    {
+        "name": "user",
+        "password": "password",
+        "tags": "administrator"
+    }
+    ],
+    "vhosts": [
+    {
+        "name": "/"
+    }
+    ]
+}
+EOF
+
 # Apply Main App
 kubectl apply -f cluster.yml > /dev/null 2>&1
 
