@@ -20,7 +20,7 @@ spec:
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "50m"
         env:
           - name: CONNECTION_STRING
             value: amqp://user:password@rabbitmq.rabbitmq.svc.cluster.local:5672/
