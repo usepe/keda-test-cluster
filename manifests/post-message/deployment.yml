@@ -23,7 +23,7 @@ spec:
             cpu: "50m"
         env:
           - name: CONNECTION_STRING
-            value: amqp://guest:guest@rabbitmq.rabbitmq.svc.cluster.local:5672/
+            value: amqp://user:CHANGEME@rabbitmq.rabbitmq.svc.cluster.local:5672/
         ports:
         - name: http
           containerPort: 8080

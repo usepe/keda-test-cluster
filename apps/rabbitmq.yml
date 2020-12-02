@@ -11,30 +11,6 @@ spec:
     repoURL: https://charts.bitnami.com/bitnami
     chart: rabbitmq
     targetRevision: 8.2.0
-    helm:
-      values: |
-      extraSecrets:
-        load-definition:
-          load_definition.json: |
-            {
-              "users": [
-                {
-                  "name": "guest",
-                  "password": "guest",
-                  "tags": "administrator"
-                }
-              ],
-              "vhosts": [
-                {
-                  "name": "/"
-                }
-              ]
-            }
-      loadDefinition:
-        enabled: true
-        existingSecret: load-definition
-      extraConfiguration: |
-        load_definitions = /app/load_definition.json
   destination:
     server: https://kubernetes.default.svc
     namespace: rabbitmq
